@@ -180,8 +180,8 @@ void loop() {
   } 
 
   // Random temporary values are used soil moisture for now.
-  soil_moist = random() % 101;
-  air_humid = dht.readHumidity();
+  soil_moist = random() % 101,
+  air_humid = dht.readHumidity(),
   temperature = dht.readTemperature();
 
   if (env_condition_check()) {
