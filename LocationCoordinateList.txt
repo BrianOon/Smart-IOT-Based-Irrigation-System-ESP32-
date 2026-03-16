@@ -1,0 +1,41 @@
+Random Places:
+1. Coordinates for Tuanku Syed Sirajuddin Polytechnic (Polytechnic in Perlis, Malaysia).
+  latitude = "6.450",
+  longitude = "100.344";
+
+2. Coordinates for the Venetian Arsenal (Historical shipyard in Venice, Italy).
+  latitude = "45.435278",
+  longitude = "12.353056";
+
+3. Coordinates for Amundsen–Scott South Pole Station (American research station in Antarctica).
+  latitude = "-90",
+  longitude = "0";
+
+4. Coordinates for Hanshin Racecourse (Racecourse in Hyogo, Japan).
+  latitude = "34.78",
+  longitude = "135.36";
+
+5. Coordinates for University of Helsinki (University in Helsinki, Finland).
+  latitude = "60.169522923309366",
+  longitude = "24.94964977083851";
+
+Towns and Cities:
+1. Coordinates for Alice Springs (Town in Northern Territory, Australia).
+  latitude = "-23.7",
+  longitude = "133.87";
+
+2. Coordinates for Kyiv (Capital of Ukraine).
+  latitude = "50.45050244462945",
+  longitude = "30.52444635257184";
+
+3. Coordinates for Timbuktu (UNESCO World Heritage Site in Mali).
+  latitude = "16.775833",
+  longitude = "-3.009444";
+
+4. Coordinates for Bahía Blanca (City in Buenos Aires, Argentina).
+  latitude = "-38.7",
+  longitude = "-62.3";
+
+5. Coordinates for Tbilisi (Capital of Georgia).
+  latitude = "41.7225",
+  longitude = "44.7925";

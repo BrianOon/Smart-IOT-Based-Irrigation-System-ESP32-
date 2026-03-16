@@ -1,7 +1,10 @@
-// define Blynk template.
+// Define Blynk template.
 #define BLYNK_TEMPLATE_ID "TMPL6WI6U1nDK"
 #define BLYNK_TEMPLATE_NAME "Smart IOT Based Irrigation System"
 #define BLYNK_AUTH_TOKEN "X85OOfN9_sky63__I0-NNVIrVFV3uuBX"
+
+// Define DHT type used.
+#define DHTTYPE DHT11 
 
 // Headers.
 #include <Arduino.h>
@@ -9,6 +12,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <BlynkSimpleEsp32.h>
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 /***************************************************************************************************
@@ -21,11 +26,11 @@ surrounding temperature, and precipitation probability. The data is sent to Blyn
 This version is made for the ESP32.
 
 Author: BrianOon (Bren)
-Latest Revision: 15/3/2026
+Latest Revision: 16/3/2026
 
 To-do List:
 
-- Implement sensor readings
+- Implement soil moisture sensor readings.
 
 For any inquiries, contact me at brianoon07+fypPTSS@gmail.com
 
@@ -35,8 +40,9 @@ For any inquiries, contact me at brianoon07+fypPTSS@gmail.com
 
 
 // Declare pins.
-int
-  pump_relay_pin = 19;
+const int
+  pump_relay_pin = 19,
+  dht_pin = 21;
 
 // Declare variables of parameters. 
 float
@@ -53,11 +59,14 @@ const float
   max_humid = 70, 
   min_temp = 4;
 
-// Sets Wifi client.
+// Initialise Wifi client.
 WiFiClient client;
 HTTPClient http;
 
-// Declare Blynk's built in timer.
+// Initialise DHT11.
+DHT dht(dht_pin, DHTTYPE);
+
+// Initialise Blynk's built in timer.
 BlynkTimer timer;
 
 // Blynk cloud server.
@@ -78,11 +87,6 @@ bool
 // Declare longitude and latitude.
   // The default location is Tuanku Syed Sirajuddin Polytechnic.
 String
-  // Coordinates for Lozzolo, Italy
-  //latitude = "45.615",
-  //longitude = "8.314";
-  //-----//
-  // Coordinates for Tuanku Syed Sirajuddin Polytechnic.
   latitude = "6.450",
   longitude = "100.344";
 
@@ -118,15 +122,21 @@ void setup() {
 
   randomSeed(millis()); // Generate random seed for random temporary values.
 
+  // Set pin mode.
   pinMode(pump_relay_pin, OUTPUT);
 
   Serial.begin(9600);
 
+  // Initialise Wifi.
   Serial.print("Connecting to Wifi: ");
   Serial.println(ssid);
-
-  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, password); 
   WiFi.begin(ssid, password);
+
+  // Initialise Blynk.
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, password); 
+
+  // Initialise DHT11.
+  dht.begin();
 
   Serial.print("Loading.");
   while (WiFi.status() != WL_CONNECTED) {
@@ -169,10 +179,10 @@ void loop() {
   
   } 
 
-  // Random temporary values are used for now.
-  soil_moist = random() % 101, 
-  air_humid = random() % 101, 
-  temperature = random() % 101;
+  // Random temporary values are used soil moisture for now.
+  soil_moist = random() % 101;
+  air_humid = dht.readHumidity();
+  temperature = dht.readTemperature();
 
   if (env_condition_check()) {
 
@@ -350,4 +360,5 @@ void blynk_func() {
   Blynk.virtualWrite(V2, temperature);
   Blynk.virtualWrite(V3, prob1);
   Blynk.virtualWrite(V4, prob2);
+  Blynk.virtualWrite(V7, latitude + ", " + longitude);
 }
